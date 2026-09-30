@@ -1,0 +1,189 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import Badge from "../components/ui/Badge.astro";
+import PillarCard from "../components/institutional/PillarCard.astro";
+import CtaBand from "../components/home/CtaBand.astro";
+import misionImg from "../assets/institutional/nosotros/mision.png";
+import visionImg from "../assets/institutional/nosotros/vision.png";
+import politicasImg from "../assets/institutional/nosotros/politicas.png";
+
+const values = [
+  "Imparcialidad",
+  "Experticia",
+  "Mejora continua",
+  "Ética",
+  "Medio ambiente",
+  "Responsabilidad social",
+];
+
+const teamGallery = [
+  {
+    src: misionImg,
+    alt: "Equipo de ENDE Cía. Ltda. frente al cartel institucional de misión, visión y política de calidad",
+  },
+  {
+    src: visionImg,
+    alt: "Dos integrantes del equipo de ENDE Cía. Ltda. frente al cartel institucional",
+  },
+  {
+    src: politicasImg,
+    alt: "Grupo del equipo de ENDE Cía. Ltda. reunido en sus oficinas",
+  },
+];
+---
+
+<BaseLayout
+  title="Nosotros"
+  description="Misión, visión y política de calidad de ENDE Cía. Ltda., empresa ecuatoriana dedicada a la inspección mediante ensayos no destructivos."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Inspección con ensayos no destructivos en el Ecuador"
+    lead="ENDE Cía. Ltda. se dedica a la inspección de partes y productos mediante ensayos no destructivos, con técnicas y procedimientos basados en normas nacionales e internacionales."
+    breadcrumb={[
+      { label: "Inicio", href: "/" },
+      { label: "Nosotros" },
+    ]}
+  />
+
+  <Section>
+    <Container>
+      <SectionHeading
+        eyebrow="Filosofía"
+        title="Misión, visión y política de calidad"
+        lead="Los principios que orientan cada inspección que realizamos."
+      />
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        <PillarCard title="Misión">
+          <svg
+            slot="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="size-6"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 5.25 3 3.75v13.5l12 1.5m0-13.5 6-1.5v13.5l-6 1.5m0-13.5v15"
+            ></path>
+          </svg>
+          <p>
+            Somos una empresa dedicada a la inspección de partes y productos
+            mediante el uso de ensayos no destructivos, aplicando técnicas y
+            procedimientos basados en normas y estándares locales e
+            internacionales. Combinamos tecnología, talento humano,
+            capacitación de personal y equipamiento de última generación,
+            observando la legislación y el marco legal aplicables.
+          </p>
+        </PillarCard>
+
+        <PillarCard title="Visión">
+          <svg
+            slot="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="size-6"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+            ></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            ></path>
+          </svg>
+          <p>
+            Afianzar el liderazgo de ENDE Cía. Ltda. en el Ecuador en el campo
+            de los ensayos no destructivos, con perspectiva regional a nivel de
+            Latinoamérica dentro de los próximos cinco años, comprometiéndonos
+            con la ética, el medio ambiente y la responsabilidad social.
+          </p>
+        </PillarCard>
+
+        <PillarCard title="Política de calidad">
+          <svg
+            slot="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="size-6"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+            ></path>
+          </svg>
+          <p>
+            Somos una empresa que provee servicios de alta calidad en ensayos
+            no destructivos, basados en requerimientos técnicos y legales de
+            normas nacionales e internacionales, con el apoyo de personal y
+            equipo debidamente calificados y certificados. Propendemos y
+            priorizamos la imparcialidad, la experticia y la mejora continua de
+            nuestros procesos, con la finalidad de satisfacer las necesidades
+            de nuestros clientes en un entorno laboral amigable.
+          </p>
+        </PillarCard>
+      </div>
+    </Container>
+  </Section>
+
+  <Section variant="surface">
+    <Container>
+      <SectionHeading
+        eyebrow="Nuestros valores"
+        title="Compromisos presentes en nuestra filosofía"
+        lead="Principios que enunciamos en nuestra misión, visión y política de calidad."
+      />
+      <ul class="mt-8 flex list-none flex-wrap gap-3 p-0">
+        {values.map((value) => (
+          <li>
+            <Badge tone="neutral" class="px-4 py-2 text-sm">{value}</Badge>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <SectionHeading
+        eyebrow="Equipo"
+        title="Nuestro equipo"
+        lead="Personas calificadas y certificadas detrás de cada servicio."
+      />
+      <ul class="mt-10 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
+        {teamGallery.map((item) => (
+          <li>
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[440, 640, 960]}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, calc(100vw - 2rem)"
+              class="h-64 w-full rounded-2xl border border-slate-200 object-cover shadow-sm"
+              loading="lazy"
+            />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>

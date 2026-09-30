@@ -1,0 +1,32 @@
+---
+// Lazy gallery item with a frame, responsive image and optional caption.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+const { src, alt, caption } = Astro.props;
+---
+
+<figure
+  class="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+>
+  <Image
+    src={src}
+    alt={alt}
+    widths={[440, 640, 960]}
+    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, calc(100vw - 2rem)"
+    class="h-56 w-full bg-white object-contain p-2"
+    loading="lazy"
+  />
+  {
+    caption && (
+      <figcaption class="mt-0 flex-1 border-t border-slate-100 p-4 text-sm leading-6 text-muted">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import CaptionedImage from "../components/institutional/CaptionedImage.astro";
+import CtaBand from "../components/home/CtaBand.astro";
+
+import equiposRadiacion from "../assets/institutional/equipos/equipos.png";
+import equiposPelicula from "../assets/institutional/equipos/equipos1.png";
+import equiposGammagrafia from "../assets/institutional/equipos/equipos2.png";
+import equiposUltrasonido from "../assets/institutional/equipos/equipos3.png";
+import equiposYoques from "../assets/institutional/equipos/equipos4.png";
+import equiposPenetrantes from "../assets/institutional/equipos/equipos5.png";
+import equiposAuxiliares from "../assets/institutional/equipos/equipos6.png";
+
+// Equipment categories from the legacy site: the bullet order matches the
+// legacy photo order, one image per category.
+const equipment = [
+  {
+    src: equiposRadiacion,
+    alt: "Instrumentos de medición de niveles de radiación con alarmas personales",
+    caption:
+      "Instrumentos para medición de niveles de radiación.",
+  },
+  {
+    src: equiposPelicula,
+    alt: "Película radiográfica, químicos, densímetro y elementos auxiliares para el procesamiento y la toma radiográfica",
+    caption:
+      "Película radiográfica, químicos y elementos auxiliares para el procesamiento y la toma radiográfica.",
+  },
+  {
+    src: equiposGammagrafia,
+    alt: "Cámara de gammagrafía, cable guía y señalética de seguridad radiológica",
+    caption:
+      "Cámara de gammagrafía y elementos auxiliares de seguridad radiológica.",
+  },
+  {
+    src: equiposUltrasonido,
+    alt: "Equipos de ultrasonido, bloques de calibración, palpadores y cables",
+    caption:
+      "Equipos de ultrasonido, set de bloques de calibración, palpadores y cables.",
+  },
+  {
+    src: equiposYoques,
+    alt: "Yoques de magnetización con medidores de luz y fuentes de iluminación",
+    caption:
+      "Yoques de magnetización y elementos auxiliares (medidores de luz, fuentes de iluminación, etc.).",
+  },
+  {
+    src: equiposPenetrantes,
+    alt: "Líquidos penetrantes en aerosol y a granel con luz ultravioleta",
+    caption:
+      "Líquidos penetrantes en aerosol y a granel, y medidores de luz.",
+  },
+  {
+    src: equiposAuxiliares,
+    alt: "Elementos auxiliares para verificación de calidad y evaluación radiográfica",
+    caption:
+      "Elementos auxiliares para verificación de calidad y evaluación radiográfica.",
+  },
+];
+---
+
+<BaseLayout
+  title="Equipos"
+  description="Conozca los equipos de ENDE Cía. Ltda.: radiografía, ultrasonido, partículas magnéticas, líquidos penetrantes y elementos auxiliares de inspección."
+>
+  <PageHero
+    eyebrow="Equipos"
+    title="Equipos de inspección"
+    lead="Contamos con equipos e insumos para todas nuestras técnicas de ensayos no destructivos, calibrados y listos para operar en campo."
+    breadcrumb={[
+      { label: "Inicio", href: "/" },
+      { label: "Equipos" },
+    ]}
+  />
+
+  <Section variant="surface">
+    <Container>
+      <SectionHeading
+        eyebrow="Nuestro equipamiento"
+        title="Instrumentos, insumos y elementos auxiliares"
+        lead="Cada categoría de equipo cuenta con sus elementos auxiliares para asegurar mediciones confiables."
+      />
+      <ul class="mt-10 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
+        {equipment.map((item) => (
+          <li>
+            <CaptionedImage src={item.src} alt={item.alt} caption={item.caption} />
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>

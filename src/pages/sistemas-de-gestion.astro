@@ -1,0 +1,169 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import DocDownload from "../components/institutional/DocDownload.astro";
+import CtaBand from "../components/home/CtaBand.astro";
+import { certifications, contact } from "../config/site";
+import isoSeals from "../assets/institutional/sistemas-de-gestion/iso-9001.png";
+import saludImg from "../assets/institutional/sistemas-de-gestion/gestion-salud-1.png";
+
+const [calidad, inspeccion] = certifications;
+---
+
+<BaseLayout
+  title="Sistemas de gestión"
+  description="Sistema de gestión de calidad ISO 9001:2015 y acreditación ISO/IEC 17020:2013 (SAE) de ENDE Cía. Ltda. Consulte el procedimiento de quejas y apelaciones."
+>
+  <PageHero
+    eyebrow="Sistemas de gestión"
+    title="Calidad y acreditación"
+    lead="Operamos bajo sistemas de gestión certificados y acreditados para garantizar la calidad de nuestros servicios de ensayos no destructivos."
+    breadcrumb={[
+      { label: "Inicio", href: "/" },
+      { label: "Sistemas de gestión" },
+    ]}
+  />
+
+  <Section>
+    <Container>
+      <SectionHeading
+        eyebrow="Gestión certificada"
+        title="Sistemas de gestión implementados"
+      />
+      <div class="mt-10 grid items-start gap-10 lg:grid-cols-3">
+        <div class="lg:col-span-2">
+          <p class="leading-7 text-muted">
+            ENDE, consciente de la necesidad de realizar sus actividades bajo
+            estándares de calidad y acorde con las exigencias actuales del
+            mercado, ha implementado el sistema de gestión de calidad bajo ISO
+            9001:2015 y el sistema de gestión bajo ISO/IEC 17020:2013,
+            alcanzando la acreditación como organismo de inspección ante el SAE
+            (Servicio de Acreditación Ecuatoriano), mediante la Resolución No.
+            SAE-ACR-0124-2021. Esto permite garantizar la calidad de sus
+            productos, priorizando y atendiendo las necesidades y requerimientos
+            del cliente mediante la mejora continua y la optimización de
+            procesos.
+          </p>
+          <dl class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <dt class="font-bold text-ink">{calidad.name}</dt>
+              <dd class="mt-2 text-sm leading-6 text-muted">{calidad.detail}</dd>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <dt class="font-bold text-ink">{inspeccion.name}</dt>
+              <dd class="mt-2 text-sm leading-6 text-muted">{inspeccion.detail}</dd>
+            </div>
+          </dl>
+        </div>
+        <Image
+          src={isoSeals}
+          alt="Sellos de ISO 9001 e ISO/IEC 17020"
+          widths={[440, 640]}
+          sizes="(min-width: 1024px) 33vw, calc(100vw - 2rem)"
+          class="w-full max-w-xs rounded-2xl border border-slate-200 bg-white object-contain p-4 shadow-sm lg:justify-self-end"
+          loading="lazy"
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section variant="surface">
+    <Container>
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <div>
+          <SectionHeading
+            eyebrow="Seguridad y salud ocupacional"
+            title="Sistema de gestión de seguridad y salud ocupacional"
+          />
+          <p class="mt-4 leading-7 text-muted">
+            ENDE Cía. Ltda. es una empresa que provee servicios de alta
+            calidad en ensayos no destructivos y se compromete a ofrecer a sus
+            trabajadores un entorno seguro y saludable, cumpliendo con la
+            legislación técnica vigente en materia de seguridad y salud.
+          </p>
+        </div>
+        <Image
+          src={saludImg}
+          alt="Participantes de una actividad interna en las oficinas de ENDE Cía. Ltda."
+          widths={[640, 960]}
+          sizes="(min-width: 1024px) 50vw, calc(100vw - 2rem)"
+          class="h-64 w-full rounded-2xl border border-slate-200 object-cover shadow-sm sm:h-80"
+          loading="lazy"
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <SectionHeading
+        eyebrow="Quejas y apelaciones"
+        title="Procedimiento de quejas y apelaciones"
+        lead="Como parte de su sistema de gestión de calidad, ENDE Cía. Ltda. ha establecido el procedimiento de producto no conforme, quejas y apelaciones (P-MJC-05)."
+      />
+      <div class="mt-10 grid gap-10 lg:grid-cols-2">
+        <div class="leading-7 text-muted">
+          <p>
+            En base a este procedimiento, las partes interesadas pueden ejercer
+            su derecho a realizar un reclamo si el servicio suministrado no
+            cumple con los procedimientos y/o documentos contractuales
+            aplicables al caso.
+          </p>
+          <p class="mt-4">
+            El proceso completo de una queja, desde la recepción de la
+            insatisfacción de la parte interesada hasta la definición de las
+            acciones para solucionar el problema, no durará más de siete días
+            hábiles, durante los cuales se cumplirá de manera irrestricta lo
+            establecido en el procedimiento mencionado.
+          </p>
+          <p class="mt-4">
+            Para el efecto, el procedimiento y el formato de recepción están
+            disponibles para su descarga. También puede comunicarse al
+            teléfono de quejas:
+            <a
+              href={`tel:${contact.complaintsPhone.tel}`}
+              class="font-semibold text-brand-700 hover:text-brand-800"
+            >
+              {contact.complaintsPhone.label}
+            </a>.
+          </p>
+        </div>
+        <ul class="list-none space-y-4 p-0">
+          <li>
+            <DocDownload
+              href="/docs/quejas.pdf"
+              title="Procedimiento de quejas y apelaciones"
+              meta="PDF · 970 KB"
+            />
+          </li>
+          <li>
+            <DocDownload
+              href="/docs/r-mjc-09-rev02.xlsx"
+              title="Formato de recepción de quejas, reclamos y apelaciones (R-MJC-09)"
+              meta="Excel · 18 KB"
+            />
+          </li>
+        </ul>
+      </div>
+    </Container>
+  </Section>
+
+  <Section variant="surface">
+    <Container>
+      <div class="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-700">
+          Factura electrónica
+        </p>
+        <p class="mt-3 leading-7 text-muted">
+          Portal de facturación electrónica temporalmente no disponible.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <CtaBand />
+</BaseLayout>
