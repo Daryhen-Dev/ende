@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/*
+ * ENDE design tokens.
+ * Palette extracted from the legacy site CSS (ende.com.ec):
+ *   #29ABE2 sky (primary), #0071BC mid blue, #2E3192 navy, #777777 muted text.
+ */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #eef9fe;
+  --color-brand-100: #d6f0fb;
+  --color-brand-200: #aee1f6;
+  --color-brand-300: #78cdef;
+  --color-brand-400: #45b8e7;
+  --color-brand-500: #29abe2;
+  --color-brand-600: #0f8ac2;
+  --color-brand-700: #0071bc;
+  --color-brand-800: #1f4e9a;
+  --color-brand-900: #2e3192;
+  --color-brand-950: #1c1e5c;
+
+  --color-ink: #0f172a;
+  --color-muted: #5f6b7a;
+  --color-surface: #f6f9fc;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
