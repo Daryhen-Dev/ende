@@ -36,6 +36,30 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-500;
+    @apply outline-2 outline-offset-2 outline-brand-700;
   }
+
+  /*
+   * Respect reduced motion globally; component-level motion-reduce:*
+   * variants complement this rule.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* View transitions: quick, subtle cross-fade between pages. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 150ms;
 }

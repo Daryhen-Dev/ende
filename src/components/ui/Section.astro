@@ -1,0 +1,20 @@
+---
+// Page section with vertical rhythm and background variants.
+interface Props {
+  as?: "section" | "div" | "article";
+  variant?: "default" | "surface" | "dark";
+  id?: string;
+  class?: string;
+}
+const { as: Tag = "section", variant = "default", id, class: className } =
+  Astro.props;
+const variantClass = {
+  default: "bg-white",
+  surface: "bg-surface",
+  dark: "bg-gradient-to-b from-brand-700 to-brand-900 text-white",
+}[variant];
+---
+
+<Tag id={id} class:list={["py-16 sm:py-20", variantClass, className]}>
+  <slot />
+</Tag>

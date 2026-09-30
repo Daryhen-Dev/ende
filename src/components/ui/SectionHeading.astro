@@ -1,0 +1,56 @@
+---
+// Eyebrow + heading + optional lead paragraph.
+// `tone="dark"` adapts colors for dark (navy) backgrounds.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: "left" | "center";
+  level?: 2 | 3;
+  tone?: "light" | "dark";
+}
+const {
+  eyebrow,
+  title,
+  lead,
+  align = "left",
+  level = 2,
+  tone = "light",
+} = Astro.props;
+const Heading = `h${level}`;
+const isDark = tone === "dark";
+---
+
+<div class:list={[align === "center" && "text-center"]}>
+  {
+    eyebrow && (
+      <p
+        class:list={[
+          "text-sm font-semibold uppercase tracking-widest",
+          isDark ? "text-brand-100" : "text-brand-700",
+        ]}
+      >
+        {eyebrow}
+      </p>
+    )
+  }
+  <Heading class:list={[
+    "mt-3 text-3xl font-bold tracking-tight sm:text-4xl",
+    isDark ? "text-white" : "text-ink",
+  ]}>
+    {title}
+  </Heading>
+  {
+    lead && (
+      <p
+        class:list={[
+          "mt-4 text-lg",
+          align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl",
+          isDark ? "text-brand-100" : "text-muted",
+        ]}
+      >
+        {lead}
+      </p>
+    )
+  }
+</div>

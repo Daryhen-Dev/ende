@@ -1,0 +1,72 @@
+---
+// Button-like link or button. Renders <a> when `href` is set, else <button>.
+// `light` variant is for dark (navy) backgrounds.
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost" | "light";
+  size?: "md" | "lg";
+  arrow?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+}
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  arrow = false,
+  type = "button",
+  class: className,
+} = Astro.props;
+const variantClass = {
+  primary: "bg-brand-700 text-white hover:bg-brand-800",
+  secondary:
+    "border border-slate-300 bg-white text-ink hover:border-brand-700 hover:text-brand-800",
+  ghost: "text-brand-700 hover:bg-brand-50",
+  light: "bg-white text-brand-900 hover:bg-brand-50",
+}[variant];
+const sizeClass = { md: "px-4 py-2 text-sm", lg: "px-6 py-3 text-base" }[size];
+const classes = [
+  "inline-flex items-center justify-center gap-1.5 rounded-full font-semibold transition-colors motion-reduce:transition-none",
+  variantClass,
+  sizeClass,
+  className,
+];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes}>
+      <slot />
+      {arrow && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          class="size-4"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m6 4 6 6-6 6" />
+        </svg>
+      )}
+    </a>
+  ) : (
+    <button type={type} class:list={classes}>
+      <slot />
+      {arrow && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          class="size-4"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m6 4 6 6-6 6" />
+        </svg>
+      )}
+    </button>
+  )
+}
