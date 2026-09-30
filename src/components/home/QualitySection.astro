@@ -1,0 +1,68 @@
+---
+// Quality section: management systems narrative plus the certifications list
+// from site.ts. All claims come from docs/legacy-content/business-data.md.
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import Card from "../ui/Card.astro";
+import Button from "../ui/Button.astro";
+import { certifications } from "../../config/site";
+---
+
+<Section variant="surface">
+  <Container>
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <SectionHeading
+          eyebrow="Calidad"
+          title="Sistemas de gestión certificados"
+        />
+        <p class="mt-6 text-lg text-muted">
+          Trabajamos bajo un sistema de gestión de calidad certificado bajo la
+          norma ISO 9001:2015, garantizando servicios de alta calidad basados
+          en requerimientos técnicos y legales de normas nacionales e
+          internacionales.
+        </p>
+        <p class="mt-4 text-lg text-muted">
+          Somos un organismo de inspección acreditado bajo la norma ISO/IEC
+          17020:2013 ante el Servicio de Acreditación Ecuatoriano (SAE) y
+          mantenemos un sistema de gestión de seguridad y salud ocupacional
+          para un entorno laboral seguro.
+        </p>
+        <Button href="/sistemas-de-gestion" variant="ghost" arrow class="mt-6">
+          Conocer nuestros sistemas de gestión
+        </Button>
+      </div>
+      <Card>
+        <h3 class="text-lg font-bold text-ink">Certificaciones</h3>
+        <ul class="mt-4 space-y-4">
+          {
+            certifications.map((certification) => (
+              <li class="flex gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="mt-0.5 size-5 shrink-0 text-brand-700"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <div>
+                  <p class="font-semibold text-ink">{certification.name}</p>
+                  <p class="mt-0.5 text-sm text-muted">
+                    {certification.detail}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </Card>
+    </div>
+  </Container>
+</Section>

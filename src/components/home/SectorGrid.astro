@@ -1,0 +1,86 @@
+---
+// Sector grid: industries served, using legacy hero photos as image cards
+// with dark gradient overlay captions for contrast. Sectors without a legacy
+// photo are listed as text pills below the grid.
+import { Image } from "astro:assets";
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import sectorRefinerias from "../../assets/home/sector-refinerias.png";
+import sectorOffshore from "../../assets/home/sector-offshore.jpg";
+import sectorEstructuras from "../../assets/home/sector-estructuras.jpg";
+import sectorRecipientes from "../../assets/home/sector-recipientes.jpg";
+
+const sectors = [
+  {
+    title: "Refinerías y plantas petroquímicas",
+    image: sectorRefinerias,
+    alt: "Complejo industrial de refinería con columnas y tuberías",
+  },
+  {
+    title: "Plataformas petrolíferas off shore",
+    image: sectorOffshore,
+    alt: "Plataforma petrolera en alta mar",
+  },
+  {
+    title: "Estructuras y puentes",
+    image: sectorEstructuras,
+    alt: "Estructura metálica en construcción con grúas",
+  },
+  {
+    title: "Recipientes a presión y tanques",
+    image: sectorRecipientes,
+    alt: "Inspección ultrasónica de un recipiente a presión",
+  },
+];
+
+const additionalSectors = [
+  "Oleoductos y gasoductos",
+  "Plataformas y facilidades petroleras",
+  "Acueductos",
+  "Estaciones y facilidades petroleras",
+];
+---
+
+<Section>
+  <Container>
+    <SectionHeading
+      eyebrow="Sectores"
+      title="Industrias que atendemos"
+      lead="Inspección de partes y productos en instalaciones de las principales industrias del país."
+    />
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        sectors.map((sector) => (
+          <figure class="group relative overflow-hidden rounded-2xl shadow-sm">
+            <Image
+              src={sector.image}
+              alt={sector.alt}
+              widths={[440, 640, 960]}
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, calc(100vw - 2rem)"
+              class="h-56 w-full object-cover transition duration-200 motion-reduce:transition-none group-hover:scale-105 motion-reduce:group-hover:scale-100"
+              loading="lazy"
+            />
+            <div
+              aria-hidden="true"
+              class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent"
+            />
+            <figcaption class="absolute inset-x-0 bottom-0 p-5">
+              <h3 class="text-lg font-bold text-white">{sector.title}</h3>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <p class="mt-8 flex flex-wrap items-center gap-2 text-sm text-muted">
+      <span class="font-semibold text-ink">Atendemos también:</span>
+      {
+        additionalSectors.map((sector) => (
+          <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+            {sector}
+          </span>
+        ))
+      }
+    </p>
+  </Container>
+</Section>

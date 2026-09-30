@@ -1,0 +1,68 @@
+---
+// Home hero: two-column intro with mission-based lead, CTAs, trust badges and
+// a featured photo with decorative brand gradient blobs.
+import { Image } from "astro:assets";
+import Button from "../ui/Button.astro";
+import Badge from "../ui/Badge.astro";
+import heroImage from "../../assets/home/hero-facilidades-petroleras.jpg";
+
+const trustBadges = ["ISO 9001:2015", "ISO/IEC 17020:2013 · SAE", "Desde 1990"];
+---
+
+<section class="relative overflow-hidden bg-white">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0">
+    <div class="absolute -top-24 -right-24 size-96 rounded-full bg-brand-100 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 size-96 rounded-full bg-brand-50 blur-3xl"></div>
+  </div>
+  <div class="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-widest text-brand-700">
+          Ensayos No Destructivos del Ecuador
+        </p>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+          Inspección no destructiva con respaldo técnico y certificado
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-muted">
+          Empresa dedicada a la inspección de partes y productos mediante
+          ensayos no destructivos, aplicando técnicas y procedimientos basados
+          en normas y estándares nacionales e internacionales.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href="/contacto" size="lg">Solicitar cotización</Button>
+          <Button href="/servicios" size="lg" variant="secondary">Ver servicios</Button>
+        </div>
+        <ul class="mt-8 flex flex-wrap gap-2">
+          {
+            trustBadges.map((badge) => (
+              <li>
+                <Badge tone="neutral">{badge}</Badge>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="relative">
+        <div
+          aria-hidden="true"
+          class="absolute -top-6 -right-6 size-48 rounded-full bg-gradient-to-br from-brand-300 to-brand-600 opacity-30 blur-2xl"
+        >
+        </div>
+        <div
+          aria-hidden="true"
+          class="absolute -bottom-8 -left-8 size-64 rounded-full bg-gradient-to-tr from-brand-200 to-brand-400 opacity-40 blur-2xl"
+        >
+        </div>
+        <Image
+          src={heroImage}
+          alt="Vista aérea de una facilidad petrolera rodeada de vegetación"
+          widths={[640, 1150]}
+          sizes="(min-width: 1024px) 50vw, calc(100vw - 2rem)"
+          loading="eager"
+          fetchpriority="high"
+          class="relative w-full rounded-3xl shadow-lg"
+        />
+      </div>
+    </div>
+  </div>
+</section>

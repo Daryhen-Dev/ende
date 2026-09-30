@@ -1,0 +1,55 @@
+---
+// Memberships row: external links to ASME, ASNT, AWS and API, with grayscale
+// logos that gain color on hover. Logos come from site assets.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "../ui/Section.astro";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { memberships } from "../../config/site";
+import logoAsme from "../../assets/brand/asme.png";
+import logoAsnt from "../../assets/brand/asnt.png";
+import logoAws from "../../assets/brand/aws.png";
+import logoApi from "../../assets/brand/api.png";
+
+const logoByMembership: Record<string, ImageMetadata> = {
+  ASME: logoAsme,
+  ASNT: logoAsnt,
+  AWS: logoAws,
+  API: logoApi,
+};
+---
+
+<Section>
+  <Container>
+    <SectionHeading
+      eyebrow="Membresías"
+      title="Miembros de organismos internacionales"
+      align="center"
+    />
+    <ul class="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+      {
+        memberships.map((membership) => (
+          <li>
+            <a
+              href={membership.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Sitio web de ${membership.name} (abre en una pestaña nueva)`}
+              class="inline-block rounded-lg p-2"
+            >
+              <Image
+                src={logoByMembership[membership.name]}
+                alt=""
+                width={logoByMembership[membership.name].width}
+                height={logoByMembership[membership.name].height}
+                class="h-12 w-auto object-contain grayscale opacity-70 transition duration-200 hover:opacity-100 hover:grayscale-0 motion-reduce:transition-none"
+                loading="lazy"
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</Section>

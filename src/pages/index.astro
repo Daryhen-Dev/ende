@@ -1,90 +1,56 @@
 ---
-// Temporary demo page to preview the design system; the real home is built
-// in a later task.
+// Home page: hero, trust strip, services, sectors, quality, memberships and
+// CTA band. Content is based on the legacy site (docs/legacy-content/).
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/PageHero.astro";
-import Container from "../components/ui/Container.astro";
 import Section from "../components/ui/Section.astro";
+import Container from "../components/ui/Container.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
-import Card from "../components/ui/Card.astro";
-import Badge from "../components/ui/Badge.astro";
 import Button from "../components/ui/Button.astro";
+import ServiceCard from "../components/services/ServiceCard.astro";
+import Hero from "../components/home/Hero.astro";
+import TrustStrip from "../components/home/TrustStrip.astro";
+import SectorGrid from "../components/home/SectorGrid.astro";
+import QualitySection from "../components/home/QualitySection.astro";
+import Memberships from "../components/home/Memberships.astro";
+import CtaBand from "../components/home/CtaBand.astro";
 
-const demoServices = [
-  {
-    badge: "RT",
-    title: "Radiografía industrial",
-    text: "Detección de discontinuidades internas en soldaduras, tuberías y recipientes a presión.",
-  },
-  {
-    badge: "UT",
-    title: "Ultrasonido",
-    text: "Medición de espesores y evaluación de integridad en componentes metálicos.",
-  },
-  {
-    badge: "PM",
-    title: "Partículas magnéticas",
-    text: "Inspección de discontinuidades superficiales y sub superficiales en materiales ferromagnéticos.",
-  },
-];
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
 ---
 
 <BaseLayout
   title="ENDE Cía. Ltda. | Ensayos No Destructivos del Ecuador"
-  description="ENDE Cía. Ltda. es una empresa que se dedica a realizar ensayos no destructivos."
+  description="Organismo de inspección acreditado ante el SAE e ISO 9001:2015. Ensayos no destructivos en Ecuador desde 1990: RT, UT, PM, PT y más."
 >
-  <PageHero
-    eyebrow="Ensayos no destructivos"
-    title="Integridad y confianza para su infraestructura"
-    lead="Más de 30 años inspeccionando oleoductos, tanques, refinerías y estructuras en Ecuador con estándares internacionales."
-    breadcrumb={[
-      { label: "Inicio", href: "/" },
-      { label: "Vista de demostración" },
-    ]}
-  >
-    <div class="mt-8 flex flex-wrap gap-3">
-      <Button href="/contacto" size="lg">Solicitar cotización</Button>
-      <Button href="/servicios" size="lg" variant="secondary">Ver servicios</Button>
-    </div>
-  </PageHero>
+  <Hero />
+  <TrustStrip />
 
-  <Section variant="surface">
+  <Section>
     <Container>
       <SectionHeading
         eyebrow="Servicios"
-        title="Técnicas de inspección"
-        lead="Vista de demostración del sistema de diseño: tarjetas, badges y botones sobre fondo surface."
-        align="center"
+        title="Técnicas de ensayos no destructivos"
+        lead="Inspección de soldaduras, tuberías, tanques y estructuras según estándares API, ASME, AWS y AWWA."
       />
       <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
-          demoServices.map((service) => (
-            <Card>
-              <Badge>{service.badge}</Badge>
-              <h3 class="mt-4 text-lg font-semibold text-ink">{service.title}</h3>
-              <p class="mt-2 text-sm text-muted">{service.text}</p>
-              <Button href="/servicios" variant="ghost" arrow class="mt-4">
-                Conocer más
-              </Button>
-            </Card>
+          services.map((service) => (
+            <ServiceCard service={service} headingLevel={3} />
           ))
         }
+      </div>
+      <div class="mt-10 text-center">
+        <Button href="/servicios" variant="ghost" arrow>
+          Ver todos los servicios
+        </Button>
       </div>
     </Container>
   </Section>
 
-  <Section variant="dark">
-    <Container>
-      <SectionHeading
-        eyebrow="Contacto"
-        title="¿Necesita una inspección?"
-        lead="Nuestro equipo le responderá a la brevedad."
-        align="center"
-        tone="dark"
-      />
-      <div class="mt-8 flex justify-center">
-        <Button href="/contacto" variant="light" size="lg">Contáctenos</Button>
-      </div>
-    </Container>
-  </Section>
+  <SectorGrid />
+  <QualitySection />
+  <Memberships />
+  <CtaBand />
 </BaseLayout>
