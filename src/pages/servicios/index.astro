@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Container from "../../components/ui/Container.astro";
+import Section from "../../components/ui/Section.astro";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+import Button from "../../components/ui/Button.astro";
+import ServiceCard from "../../components/services/ServiceCard.astro";
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  title="Servicios"
+  description="Servicios de ensayos no destructivos de ENDE Cía. Ltda.: radiografía, ultrasonido, partículas magnéticas, líquidos penetrantes y otras técnicas de inspección."
+>
+  <PageHero
+    eyebrow="Servicios"
+    title="Ensayos no destructivos"
+    lead="Técnicas de inspección para el control de calidad de soldaduras, materiales y equipos durante las fases de construcción y mantenimiento."
+  />
+
+  <Section variant="surface">
+    <Container>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </Container>
+  </Section>
+
+  <Section variant="dark">
+    <Container>
+      <SectionHeading
+        eyebrow="Contacto"
+        title="¿Necesita un ensayo no destructivo?"
+        lead="Contáctenos para cotizar un servicio de inspección para su proyecto u operación."
+        align="center"
+        tone="dark"
+      />
+      <div class="mt-8 flex justify-center">
+        <Button href="/contacto/" variant="light" size="lg" arrow>
+          Solicitar un servicio
+        </Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

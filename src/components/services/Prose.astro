@@ -1,0 +1,41 @@
+---
+// Typography for rendered Markdown article content (.prose-ende).
+// Minimal global rules scoped to the class, since @tailwindcss/typography
+// is not installed.
+---
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  .prose-ende h2 {
+    @apply mt-10 text-2xl font-bold tracking-tight text-ink;
+  }
+
+  .prose-ende h3 {
+    @apply mt-8 text-xl font-bold tracking-tight text-ink;
+  }
+
+  .prose-ende p {
+    @apply mt-4 leading-7 text-muted;
+  }
+
+  .prose-ende ul {
+    @apply mt-4 list-disc space-y-2 pl-6 leading-7 text-muted;
+  }
+
+  .prose-ende ol {
+    @apply mt-4 list-decimal space-y-2 pl-6 leading-7 text-muted;
+  }
+
+  .prose-ende strong {
+    @apply font-semibold text-ink;
+  }
+
+  .prose-ende a {
+    @apply font-medium text-brand-700 underline underline-offset-2;
+  }
+
+  .prose-ende > :first-child {
+    @apply mt-0;
+  }
+</style>

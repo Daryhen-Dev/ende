@@ -1,0 +1,54 @@
+---
+// Service card with whole-card link. Used in the services grid (headingLevel 2)
+// and in the "Otros servicios" section of detail pages (headingLevel 3).
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import Badge from "../ui/Badge.astro";
+
+interface Props {
+  service: CollectionEntry<"services">;
+  headingLevel?: 2 | 3;
+}
+const { service, headingLevel = 2 } = Astro.props;
+const { shortTitle, acronym, summary, cover } = service.data;
+const Heading = `h${headingLevel}`;
+---
+
+<a
+  href={`/servicios/${service.id}/`}
+  class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 motion-reduce:transition-none hover:-translate-y-1 hover:border-brand-200 hover:shadow-md motion-reduce:hover:translate-y-0"
+>
+  <Image
+    src={cover}
+    alt={`Servicio de ${shortTitle.toLowerCase()}`}
+    widths={[440, 640, 960]}
+    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, calc(100vw - 2rem)"
+    class="h-48 w-full object-cover"
+    loading="lazy"
+  />
+  <div class="flex flex-1 flex-col p-6">
+    {acronym && <Badge>{acronym}</Badge>}
+    <Heading
+      class:list={["text-lg font-bold text-ink group-hover:text-brand-800", acronym && "mt-3"]}
+    >
+      {shortTitle}
+    </Heading>
+    <p class="mt-2 text-sm leading-6 text-muted">{summary}</p>
+    <span
+      class="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-brand-700"
+    >
+      Ver servicio
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        class="size-4"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="m6 4 6 6-6 6"></path>
+      </svg>
+    </span>
+  </div>
+</a>

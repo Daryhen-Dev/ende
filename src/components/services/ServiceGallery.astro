@@ -1,0 +1,27 @@
+---
+// Responsive, lazy-loaded gallery grid for a service's photo set.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  gallery: { src: ImageMetadata; alt: string }[];
+}
+const { gallery } = Astro.props;
+---
+
+<ul class="grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    gallery.map((item) => (
+      <li>
+        <Image
+          src={item.src}
+          alt={item.alt}
+          widths={[440, 640, 960]}
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, calc(100vw - 2rem)"
+          class="h-56 w-full rounded-xl border border-slate-200 object-cover"
+          loading="lazy"
+        />
+      </li>
+    ))
+  }
+</ul>

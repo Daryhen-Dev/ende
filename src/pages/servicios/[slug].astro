@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import Container from "../../components/ui/Container.astro";
+import Section from "../../components/ui/Section.astro";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+import Button from "../../components/ui/Button.astro";
+import Badge from "../../components/ui/Badge.astro";
+import Prose from "../../components/services/Prose.astro";
+import ServiceCard from "../../components/services/ServiceCard.astro";
+import ServiceGallery from "../../components/services/ServiceGallery.astro";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: CollectionEntry<"services">;
+}
+
+const { service } = Astro.props;
+const { title, summary, highlights, standards, gallery } = service.data;
+const { Content } = await render(service);
+const otherServices = (await getCollection("services"))
+  .filter((s) => s.id !== service.id)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={title} description={summary}>
+  <PageHero
+    eyebrow="Servicios"
+    title={title}
+    breadcrumb={[
+      { label: "Inicio", href: "/" },
+      { label: "Servicios", href: "/servicios/" },
+      { label: title },
+    ]}
+  />
+
+  <Section>
+    <Container>
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <Prose />
+        <article class="prose-ende min-w-0">
+          <Content />
+        </article>
+
+        <aside class="space-y-8 lg:sticky lg:top-8 lg:self-start">
+          <div>
+            <h2 class="text-sm font-semibold uppercase tracking-widest text-brand-700">
+              Aspectos destacados
+            </h2>
+            <ul class="mt-4 space-y-3">
+              {
+                highlights.map((highlight) => (
+                  <li class="flex gap-2.5 text-sm leading-6 text-muted">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="mt-1 size-4 shrink-0 text-brand-700"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m4 10 3 3 9-9"
+                      />
+                    </svg>
+                    <span>{highlight}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          {
+            standards && standards.length > 0 && (
+              <div>
+                <h2 class="text-sm font-semibold uppercase tracking-widest text-brand-700">
+                  Normas y códigos
+                </h2>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {standards.map((standard) => (
+                    <Badge tone="neutral">{standard}</Badge>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          <div class="rounded-2xl bg-gradient-to-b from-brand-700 to-brand-900 p-6 text-white">
+            <p class="text-lg font-bold">¿Necesita este servicio?</p>
+            <p class="mt-2 text-sm leading-6 text-brand-100">
+              Solicite una cotización para su proyecto u operación.
+            </p>
+            <Button href="/contacto/" variant="light" class="mt-5 w-full">
+              Solicitar cotización
+            </Button>
+          </div>
+        </aside>
+      </div>
+    </Container>
+  </Section>
+
+  {
+    gallery && gallery.length > 0 && (
+      <Section variant="surface">
+        <Container>
+          <SectionHeading eyebrow="Galería" title="Trabajo en campo" />
+          <div class="mt-8">
+            <ServiceGallery gallery={gallery} />
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section>
+    <Container>
+      <SectionHeading eyebrow="Servicios" title="Otros servicios" />
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {otherServices.map((other) => <ServiceCard service={other} headingLevel={3} />)}
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
