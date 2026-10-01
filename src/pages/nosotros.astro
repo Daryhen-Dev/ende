@@ -35,20 +35,23 @@ const teamGallery = [
     alt: "Grupo del equipo de ENDE Cía. Ltda. reunido en sus oficinas",
   },
 ];
+
+const breadcrumb = [
+  { label: "Inicio", href: "/" },
+  { label: "Nosotros" },
+];
 ---
 
 <BaseLayout
   title="Nosotros"
   description="Misión, visión y política de calidad de ENDE Cía. Ltda., empresa ecuatoriana dedicada a la inspección mediante ensayos no destructivos."
+  breadcrumb={breadcrumb}
 >
   <PageHero
     eyebrow="Nosotros"
     title="Inspección con ensayos no destructivos en el Ecuador"
     lead="ENDE Cía. Ltda. se dedica a la inspección de partes y productos mediante ensayos no destructivos, con técnicas y procedimientos basados en normas nacionales e internacionales."
-    breadcrumb={[
-      { label: "Inicio", href: "/" },
-      { label: "Nosotros" },
-    ]}
+    breadcrumb={breadcrumb}
   />
 
   <Section>

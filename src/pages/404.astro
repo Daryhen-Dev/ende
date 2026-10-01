@@ -1,0 +1,28 @@
+---
+// 404 page: noindex, excluded from the sitemap (see astro.config.mjs).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Section from "../components/ui/Section.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página solicitada no existe o fue movida. Explore los servicios de ENDE Cía. Ltda. o vuelva al inicio."
+  noindex
+>
+  <PageHero
+    eyebrow="Error 404"
+    title="Página no encontrada"
+    lead="La página que busca no existe o fue movida. Puede volver al inicio o conocer nuestros servicios de ensayos no destructivos."
+  />
+  <Section>
+    <Container>
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button href="/" size="lg">Volver al inicio</Button>
+        <Button href="/servicios/" size="lg" variant="secondary">Ver servicios</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

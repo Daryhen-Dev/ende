@@ -1,24 +1,71 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import type { ImageMetadata } from "astro";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import OrganizationSchema from "../components/seo/OrganizationSchema.astro";
+import BreadcrumbSchema from "../components/seo/BreadcrumbSchema.astro";
 import { site } from "../config/site";
+import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import interLatinExtWoff2 from "@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url";
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
 
 interface Props {
   title: string;
   description?: string;
-  image?: string;
+  /** OG image: an imported asset (ImageMetadata) or an absolute-path string. */
+  image?: ImageMetadata | string;
+  imageWidth?: number;
+  imageHeight?: number;
+  /** Breadcrumb trail (same array as PageHero's) for BreadcrumbList JSON-LD. */
+  breadcrumb?: Crumb[];
+  /** Emits a robots noindex meta tag (used by the 404 page). */
+  noindex?: boolean;
 }
 const {
   title,
   description = "ENDE Cía. Ltda. es una empresa que se dedica a realizar ensayos no destructivos.",
   image,
+  imageWidth = 1200,
+  imageHeight = 630,
+  breadcrumb,
+  noindex = false,
 } = Astro.props;
 
 // Home may pass a full title; otherwise append the site name.
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const imagePath = typeof image === "string" ? image : image?.src;
+const ogImageURL = new URL(imagePath ?? "/og-default.jpg", Astro.site);
+const ogImageAlt = site.tagline;
+
+// Inter Variable, latin + latin-ext subsets only: @fontsource-variable/inter's
+// own CSS bundles seven subsets (cyrillic, greek, vietnamese, ...) that this
+// Spanish-language site never uses. The latin file is preloaded above.
+const fontFaceCss = `
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("${interLatinWoff2}") format("woff2-variations");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("${interLatinExtWoff2}") format("woff2-variations");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+`;
 ---
 
 <!doctype html>
@@ -28,18 +75,38 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/png" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={interLatinWoff2}
+      crossorigin
+    />
+    <style is:inline set:html={fontFaceCss} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:locale" content={site.locale} />
-    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
     <ClientRouter />
+    <OrganizationSchema />
+    {breadcrumb && <BreadcrumbSchema breadcrumb={breadcrumb} />}
   </head>
   <body>
     <a

@@ -1,0 +1,44 @@
+---
+// Organization / ProfessionalService structured data, rendered on every page
+// through BaseLayout. Only truthful, verifiable data: no ratings, opening
+// hours or geo coordinates.
+import { getImage } from "astro:assets";
+import logo from "../../assets/brand/logo-ende.png";
+import { site, contact } from "../../config/site";
+
+const logoImage = await getImage({ src: logo });
+const logoURL = new URL(logoImage.src, site.url).toString();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${site.url}/#organization`,
+  name: site.name,
+  alternateName: site.shortName,
+  description:
+    "Empresa ecuatoriana dedicada a la inspección de partes y productos mediante ensayos no destructivos, acreditada ante el SAE como organismo de inspección.",
+  url: `${site.url}/`,
+  logo: logoURL,
+  image: logoURL,
+  email: contact.email,
+  telephone: contact.phones[0].tel,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: contact.addressLines.join(", "),
+    addressLocality: contact.city,
+    addressCountry: "EC",
+  },
+  sameAs: [contact.facebook],
+  areaServed: { "@type": "Country", name: "Ecuador" },
+  knowsAbout: [
+    "Radiografía industrial (RT)",
+    "Ultrasonido (UT)",
+    "Partículas magnéticas (PM)",
+    "Líquidos penetrantes (PT)",
+    "Inspección de soldaduras",
+    "Ensayos no destructivos",
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

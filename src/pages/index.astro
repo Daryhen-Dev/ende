@@ -3,6 +3,7 @@
 // CTA band. Content is based on the legacy site (docs/legacy-content/).
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import WebSiteSchema from "../components/seo/WebSiteSchema.astro";
 import Section from "../components/ui/Section.astro";
 import Container from "../components/ui/Container.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
@@ -24,6 +25,7 @@ const services = (await getCollection("services")).sort(
   title="ENDE Cía. Ltda. | Ensayos No Destructivos del Ecuador"
   description="Organismo de inspección acreditado ante el SAE e ISO 9001:2015. Ensayos no destructivos en Ecuador desde 1990: RT, UT, PM, PT y más."
 >
+  <WebSiteSchema />
   <Hero />
   <TrustStrip />
 
@@ -42,7 +44,7 @@ const services = (await getCollection("services")).sort(
         }
       </div>
       <div class="mt-10 text-center">
-        <Button href="/servicios" variant="ghost" arrow>
+        <Button href="/servicios/" variant="ghost" arrow>
           Ver todos los servicios
         </Button>
       </div>

@@ -61,20 +61,23 @@ const equipment = [
       "Elementos auxiliares para verificación de calidad y evaluación radiográfica.",
   },
 ];
+
+const breadcrumb = [
+  { label: "Inicio", href: "/" },
+  { label: "Equipos" },
+];
 ---
 
 <BaseLayout
   title="Equipos"
   description="Conozca los equipos de ENDE Cía. Ltda.: radiografía, ultrasonido, partículas magnéticas, líquidos penetrantes y elementos auxiliares de inspección."
+  breadcrumb={breadcrumb}
 >
   <PageHero
     eyebrow="Equipos"
     title="Equipos de inspección"
     lead="Contamos con equipos e insumos para todas nuestras técnicas de ensayos no destructivos, calibrados y listos para operar en campo."
-    breadcrumb={[
-      { label: "Inicio", href: "/" },
-      { label: "Equipos" },
-    ]}
+    breadcrumb={breadcrumb}
   />
 
   <Section variant="surface">

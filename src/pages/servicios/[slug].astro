@@ -1,8 +1,10 @@
 ---
 import { getCollection, render } from "astro:content";
+import { getImage } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import ServiceSchema from "../../components/seo/ServiceSchema.astro";
 import Container from "../../components/ui/Container.astro";
 import Section from "../../components/ui/Section.astro";
 import SectionHeading from "../../components/ui/SectionHeading.astro";
@@ -25,22 +27,36 @@ interface Props {
 }
 
 const { service } = Astro.props;
-const { title, summary, highlights, standards, gallery } = service.data;
+const { title, summary, highlights, standards, gallery, cover } = service.data;
 const { Content } = await render(service);
 const otherServices = (await getCollection("services"))
   .filter((s) => s.id !== service.id)
   .sort((a, b) => a.data.order - b.data.order);
+
+// OG image: convert the service cover to a ~1200px JPG for social cards.
+const ogImage = await getImage({ src: cover, width: 1200, format: "jpg" });
+const ogImageHeight = Math.round((1200 * cover.height) / cover.width);
+
+const breadcrumb = [
+  { label: "Inicio", href: "/" },
+  { label: "Servicios", href: "/servicios/" },
+  { label: title },
+];
 ---
 
-<BaseLayout title={title} description={summary}>
+<BaseLayout
+  title={title}
+  description={summary}
+  image={ogImage.src}
+  imageWidth={1200}
+  imageHeight={ogImageHeight}
+  breadcrumb={breadcrumb}
+>
+  <ServiceSchema name={title} description={summary} serviceType={title} />
   <PageHero
     eyebrow="Servicios"
     title={title}
-    breadcrumb={[
-      { label: "Inicio", href: "/" },
-      { label: "Servicios", href: "/servicios/" },
-      { label: title },
-    ]}
+    breadcrumb={breadcrumb}
   />
 
   <Section>

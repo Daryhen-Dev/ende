@@ -11,16 +11,23 @@ import ServiceCard from "../../components/services/ServiceCard.astro";
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+const breadcrumb = [
+  { label: "Inicio", href: "/" },
+  { label: "Servicios" },
+];
 ---
 
 <BaseLayout
   title="Servicios"
   description="Servicios de ensayos no destructivos de ENDE Cía. Ltda.: radiografía, ultrasonido, partículas magnéticas, líquidos penetrantes y otras técnicas de inspección."
+  breadcrumb={breadcrumb}
 >
   <PageHero
     eyebrow="Servicios"
     title="Ensayos no destructivos"
     lead="Técnicas de inspección para el control de calidad de soldaduras, materiales y equipos durante las fases de construcción y mantenimiento."
+    breadcrumb={breadcrumb}
   />
 
   <Section variant="surface">

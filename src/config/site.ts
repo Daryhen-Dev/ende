@@ -13,13 +13,16 @@ export const site = {
 
 export type NavItem = { label: string; href: string };
 
+// Internal hrefs end with a trailing slash: the site builds with
+// `trailingSlash: "always"` and `build.format: "directory"`, so /x/ is the
+// canonical form (avoids a mod_dir 301 on Apache).
 export const nav: NavItem[] = [
   { label: "Inicio", href: "/" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Equipos", href: "/equipos" },
-  { label: "Sistemas de gestión", href: "/sistemas-de-gestion" },
-  { label: "Contacto", href: "/contacto" },
+  { label: "Nosotros", href: "/nosotros/" },
+  { label: "Servicios", href: "/servicios/" },
+  { label: "Equipos", href: "/equipos/" },
+  { label: "Sistemas de gestión", href: "/sistemas-de-gestion/" },
+  { label: "Contacto", href: "/contacto/" },
 ];
 
 export type Phone = { label: string; tel: string };

@@ -1,0 +1,16 @@
+---
+// WebSite structured data for the home page.
+import { site } from "../../config/site";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  alternateName: site.shortName,
+  url: `${site.url}/`,
+  inLanguage: "es-EC",
+  publisher: { "@id": `${site.url}/#organization` },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

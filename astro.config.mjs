@@ -11,9 +11,16 @@ export default defineConfig({
   output: "static",
   // Emit /ruta/index.html so clean URLs work on any Apache/nginx host.
   build: { format: "directory" },
-  trailingSlash: "ignore",
+  // Canonical URLs and every internal href use trailing slashes; Apache's
+  // mod_dir would otherwise 301 /equipos to /equipos/ on every request.
+  trailingSlash: "always",
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // The 404 page is noindex and must not appear in the sitemap.
+      filter: (page) => !page.includes("404"),
+    }),
+  ],
 });

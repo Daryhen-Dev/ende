@@ -12,20 +12,23 @@ import isoSeals from "../assets/institutional/sistemas-de-gestion/iso-9001.png";
 import saludImg from "../assets/institutional/sistemas-de-gestion/gestion-salud-1.png";
 
 const [calidad, inspeccion] = certifications;
+
+const breadcrumb = [
+  { label: "Inicio", href: "/" },
+  { label: "Sistemas de gestión" },
+];
 ---
 
 <BaseLayout
   title="Sistemas de gestión"
   description="Sistema de gestión de calidad ISO 9001:2015 y acreditación ISO/IEC 17020:2013 (SAE) de ENDE Cía. Ltda. Consulte el procedimiento de quejas y apelaciones."
+  breadcrumb={breadcrumb}
 >
   <PageHero
     eyebrow="Sistemas de gestión"
     title="Calidad y acreditación"
     lead="Operamos bajo sistemas de gestión certificados y acreditados para garantizar la calidad de nuestros servicios de ensayos no destructivos."
-    breadcrumb={[
-      { label: "Inicio", href: "/" },
-      { label: "Sistemas de gestión" },
-    ]}
+    breadcrumb={breadcrumb}
   />
 
   <Section>

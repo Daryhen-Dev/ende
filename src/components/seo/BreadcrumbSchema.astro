@@ -1,0 +1,31 @@
+---
+// BreadcrumbList structured data for inner pages. Derived from the same
+// breadcrumb array that PageHero renders.
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  breadcrumb: Crumb[];
+}
+const { breadcrumb } = Astro.props;
+
+const pageURL = new URL(Astro.url.pathname, Astro.site).toString();
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumb.map((crumb, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: crumb.label,
+    // The last crumb is the current page (no href); point it at the page URL.
+    item: crumb.href
+      ? new URL(crumb.href, Astro.site).toString()
+      : index === breadcrumb.length - 1
+        ? pageURL
+        : undefined,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

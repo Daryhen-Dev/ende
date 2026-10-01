@@ -4,11 +4,14 @@ import Button from "../ui/Button.astro";
 import { site, nav } from "../../config/site";
 import logo from "../../assets/brand/logo-ende.png";
 
-// Normalize trailing slash so /servicios/ matches /servicios.
-const path =
-  Astro.url.pathname.length > 1 ? Astro.url.pathname.replace(/\/+$/, "") : "/";
-const isActive = (href: string) =>
-  href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
+// With trailingSlash: "always" both Astro.url.pathname and nav hrefs carry a
+// trailing slash; normalize both sides so highlighting works either way.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => {
+  const target = href.replace(/\/+$/, "") || "/";
+  if (target === "/") return path === "/";
+  return path === target || path.startsWith(`${target}/`);
+};
 ---
 
 <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur">
@@ -41,7 +44,7 @@ const isActive = (href: string) =>
     </nav>
 
     <div class="hidden lg:block">
-      <Button href="/contacto" size="md">Solicitar cotización</Button>
+      <Button href="/contacto/" size="md">Solicitar cotización</Button>
     </div>
 
     <button
@@ -100,7 +103,7 @@ const isActive = (href: string) =>
           ))
         }
         <li class="pt-2">
-          <Button href="/contacto" size="md">Solicitar cotización</Button>
+          <Button href="/contacto/" size="md">Solicitar cotización</Button>
         </li>
       </ul>
     </nav>
