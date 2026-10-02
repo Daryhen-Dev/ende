@@ -22,7 +22,7 @@ Rebuild ende.com.ec (legacy Adobe Muse static site) as a modern Astro site.
 - [x] 4. Home page: hero, featured services, certifications (ASNT, ASME, AWS, API), contact CTA.
 - [x] 5. Services: content collection, `/servicios` index, 5 technique pages.
 - [x] 6. Institutional pages: nosotros, equipos, sistemas de gestión (factura electrónica without link).
-- [ ] 7. SEO and performance: metadata, sitemap, structured data, Lighthouse pass.
+- [x] 7. SEO and performance: metadata, sitemap, structured data, Lighthouse pass.
 - [ ] 8. Contact page and form (PHP handler on hosting).
 - [ ] 9. Deploy: build and upload guide for mysitearea.com file manager.
 
@@ -37,6 +37,7 @@ Rebuild ende.com.ec (legacy Adobe Muse static site) as a modern Astro site.
 - Task 5: `c5d762b` feat: add services content collection and technique pages. 7 pages built, check 0/0/0, 30 images (7.8 MB). Native review review-95a63100ad7f4a12 approved + acknowledged; advisory: no render tests, order uniqueness not enforced, sort tiebreaker.
 - Task 4: `5aea75c` feat: build home page with hero, services, sectors and quality sections. Build 7 pages, check 0 errors. Native review review-e9998730bfd40385 approved + acknowledged; advisory: membership logo lookup guard, empty phone guard, services sort. Authored copy (h1, leads, CTA) needs owner sign-off.
 - Task 6: `1375077` feat: add nosotros, equipos and sistemas de gestion pages. Build 10 pages, check 0 errors. Native review review-761d072a285ca2ce (third START, consent resolved) approved + acknowledged; 5 advisory findings in sistemas-de-gestion.astro and equipos.astro. Owner to update Visión text ("próximos cinco años" is dated).
+- Task 7: `19f6774` feat: add SEO metadata, structured data and performance tuning. 11 pages, check 0 errors; JSON-LD 26 blocks valid; 2 font subsets; trailing slashes; robots.txt, .htaccess, 404, og-default.jpg. Lighthouse with compression (serve@14): mobile perf 98 (/) and 100 (/servicios/ultrasonido/), desktop 100; the earlier 57 came from astro preview serving uncompressed. Hero srcset widened to 400/640/800/1150. Native review review-a1025139543b5627 ESCALATED (state escalated, stop native_stop_required, cause unknown_causality, finding R3-CRASH-missing-cover). Parent check: `cover` is required `image()` in src/content.config.ts, so a missing cover fails schema validation at build, not at runtime. Awaiting owner decision.
 
 ## Follow-ups (advisory, non-blocking)
 
