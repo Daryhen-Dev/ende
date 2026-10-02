@@ -34,8 +34,16 @@ const otherServices = (await getCollection("services"))
   .sort((a, b) => a.data.order - b.data.order);
 
 // OG image: convert the service cover to a ~1200px JPG for social cards.
-const ogImage = await getImage({ src: cover, width: 1200, format: "jpg" });
-const ogImageHeight = Math.round((1200 * cover.height) / cover.width);
+// The schema requires `cover`, but guard anyway so a bad asset can never break
+// the page: without valid dimensions BaseLayout falls back to /og-default.jpg.
+const OG_WIDTH = 1200;
+const hasCover = Boolean(cover && cover.width > 0 && cover.height > 0);
+const ogImage = hasCover
+  ? await getImage({ src: cover, width: OG_WIDTH, format: "jpg" })
+  : undefined;
+const ogImageHeight = hasCover
+  ? Math.round((OG_WIDTH * cover.height) / cover.width)
+  : undefined;
 
 const breadcrumb = [
   { label: "Inicio", href: "/" },
@@ -47,8 +55,8 @@ const breadcrumb = [
 <BaseLayout
   title={title}
   description={summary}
-  image={ogImage.src}
-  imageWidth={1200}
+  image={ogImage?.src}
+  imageWidth={ogImage ? OG_WIDTH : undefined}
   imageHeight={ogImageHeight}
   breadcrumb={breadcrumb}
 >
