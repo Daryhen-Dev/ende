@@ -16,6 +16,8 @@ export default defineConfig({
   trailingSlash: "always",
   vite: {
     plugins: [tailwindcss()],
+    // Expose PUBLIC_* client-side env vars to import.meta.env.
+    envPrefix: ["PUBLIC_"],
   },
   integrations: [
     sitemap({

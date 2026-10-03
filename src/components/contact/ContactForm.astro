@@ -9,8 +9,14 @@
 // public/api/contacto.php.
 interface Props {
   class?: string;
+  /**
+   * Preview mode: the PHP handler does not exist on the preview host (e.g.
+   * Vercel does not run PHP), so the form is disabled with a notice. It stays
+   * fully enabled when the prop is not passed (production build).
+   */
+  preview?: boolean;
 }
-const { class: className } = Astro.props;
+const { class: className, preview = false } = Astro.props;
 
 const labelClass = "block text-sm font-semibold text-ink";
 const inputClass =
@@ -26,6 +32,7 @@ const errorClass = "mt-1 hidden text-sm text-red-700";
     action="/api/contacto.php"
     class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
     aria-labelledby="contact-form-heading"
+      data-contact-preview={preview ? "1" : undefined}
   >
     <h2 id="contact-form-heading" class="text-xl font-bold text-ink">
       Envíenos un mensaje
@@ -179,9 +186,28 @@ const errorClass = "mt-1 hidden text-sm text-red-700";
       <button
         type="submit"
         class="inline-flex items-center justify-center rounded-full bg-brand-700 px-6 py-3 text-base font-semibold text-white transition-colors motion-reduce:transition-none hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={preview ? true : undefined}
+        aria-disabled={preview ? "true" : undefined}
       >
         Enviar mensaje
       </button>
+      {
+        preview && (
+          <p class="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+            Versión de prueba: el envío de mensajes se activa cuando el sitio se
+            publique. Mientras tanto, escríbanos a{" "}
+            <a
+              href="mailto:ende@ende.com.ec"
+              class="font-semibold underline"
+            >ende@ende.com.ec</a>{" "}
+            o llámenos al{" "}
+            <a href="tel:+593992525570" class="font-semibold underline">
+              099 252 5570
+            </a>
+            .
+          </p>
+        )
+      }
     </div>
   </form>
 </div>
@@ -330,6 +356,11 @@ const errorClass = "mt-1 hidden text-sm text-red-700";
       return;
     }
     form.dataset.contactBound = "1";
+
+    // Preview build: the PHP endpoint is unavailable; keep the form inert.
+    if (form.dataset.contactPreview === "1") {
+      return;
+    }
 
     form.noValidate = true;
     setTimestamp(form);

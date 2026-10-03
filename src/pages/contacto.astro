@@ -210,7 +210,7 @@ const linkClass = "font-semibold text-brand-700 hover:text-brand-800";
         </div>
 
         <!-- Contact form -->
-        <ContactForm />
+        <ContactForm preview={import.meta.env.PUBLIC_SITE_PREVIEW === "1"} />
       </div>
     </Container>
   </Section>
