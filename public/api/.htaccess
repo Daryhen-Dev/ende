@@ -1,0 +1,20 @@
+# Contact API endpoint protection.
+#
+# Deny direct access to every file in /api/ except the contact handler, and
+# disable directory listing. Auth directives are wrapped in IfModule so that
+# hosts without a given module do not return 500 for the whole directory;
+# Options -Indexes is a core directive and safe to declare directly.
+
+Options -Indexes
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^(?!contacto\.php$).">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^(?!contacto\.php$).">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,352 @@
+---
+// Contact form for /contacto/.
+//
+// Progressive enhancement: without JavaScript the form performs a native POST
+// to /api/contacto.php, which redirects back to /contacto/?estado=...#formulario.
+// With JavaScript, the submit event is intercepted and sent via fetch with
+// `Accept: application/json`, showing inline status feedback. The honeypot
+// ("website") and timestamp ("ts") fields are validated server-side; see
+// public/api/contacto.php.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const labelClass = "block text-sm font-semibold text-ink";
+const inputClass =
+  "mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-ink shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-700/25";
+const hintClass = "mt-1 text-sm text-muted";
+const errorClass = "mt-1 hidden text-sm text-red-700";
+---
+
+<div class={className} id="formulario">
+  <form
+    id="contact-form"
+    method="post"
+    action="/api/contacto.php"
+    class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+    aria-labelledby="contact-form-heading"
+  >
+    <h2 id="contact-form-heading" class="text-xl font-bold text-ink">
+      Envíenos un mensaje
+    </h2>
+    <p class="mt-2 text-sm leading-6 text-muted">
+      Los campos marcados con
+      <span class="text-brand-700" aria-hidden="true">*</span>
+      son obligatorios.
+    </p>
+
+    <div
+      id="contact-status"
+      class="mt-4 hidden rounded-xl border p-4 text-sm"
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+    >
+    </div>
+
+    <div class="mt-6 space-y-5">
+      <div>
+        <label for="contact-nombre" class={labelClass}>
+          Nombre
+          <span class="text-brand-700" aria-hidden="true">*</span>
+          <span class="sr-only">(obligatorio)</span>
+        </label>
+        <input
+          type="text"
+          id="contact-nombre"
+          name="nombre"
+          required
+          maxlength="100"
+          autocomplete="name"
+          aria-describedby="contact-nombre-error"
+          class={inputClass}
+        />
+        <p id="contact-nombre-error" class={errorClass} data-error-for="nombre"></p>
+      </div>
+
+      <div>
+        <label for="contact-email" class={labelClass}>
+          Correo electrónico
+          <span class="text-brand-700" aria-hidden="true">*</span>
+          <span class="sr-only">(obligatorio)</span>
+        </label>
+        <input
+          type="email"
+          id="contact-email"
+          name="email"
+          required
+          maxlength="150"
+          autocomplete="email"
+          aria-describedby="contact-email-error"
+          class={inputClass}
+        />
+        <p id="contact-email-error" class={errorClass} data-error-for="email"></p>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="contact-telefono" class={labelClass}>Teléfono móvil</label>
+          <input
+            type="tel"
+            id="contact-telefono"
+            name="telefono"
+            maxlength="30"
+            autocomplete="tel"
+            aria-describedby="contact-telefono-hint contact-telefono-error"
+            class={inputClass}
+          />
+          <p id="contact-telefono-hint" class={hintClass}>Opcional.</p>
+          <p
+            id="contact-telefono-error"
+            class={errorClass}
+            data-error-for="telefono"
+          >
+          </p>
+        </div>
+        <div>
+          <label for="contact-empresa" class={labelClass}>Empresa</label>
+          <input
+            type="text"
+            id="contact-empresa"
+            name="empresa"
+            maxlength="150"
+            autocomplete="organization"
+            aria-describedby="contact-empresa-error"
+            class={inputClass}
+          />
+          <p id="contact-empresa-error" class={errorClass} data-error-for="empresa"></p>
+        </div>
+      </div>
+
+      <div>
+        <label for="contact-mensaje" class={labelClass}>
+          Mensaje
+          <span class="text-brand-700" aria-hidden="true">*</span>
+          <span class="sr-only">(obligatorio)</span>
+        </label>
+        <textarea
+          id="contact-mensaje"
+          name="mensaje"
+          rows="6"
+          required
+          minlength="10"
+          maxlength="3000"
+          aria-describedby="contact-mensaje-hint contact-mensaje-error"
+          class={inputClass}
+        >
+</textarea
+        >
+        <p id="contact-mensaje-hint" class={hintClass}>Entre 10 y 3000 caracteres.</p>
+        <p id="contact-mensaje-error" class={errorClass} data-error-for="mensaje"></p>
+      </div>
+
+      <div>
+        <div class="flex items-start gap-3">
+          <input
+            type="checkbox"
+            id="contact-consent"
+            name="consent"
+            value="1"
+            required
+            class="mt-1 size-4 shrink-0 rounded border-slate-300 text-brand-700 focus:ring-2 focus:ring-brand-700/25"
+          />
+          <label for="contact-consent" class="text-sm leading-6 text-muted">
+            Acepto que ENDE Cía. Ltda. utilice mis datos únicamente para
+            responder esta consulta.
+            <span class="text-brand-700" aria-hidden="true">*</span>
+            <span class="sr-only"> (obligatorio)</span>
+          </label>
+        </div>
+        <p id="contact-consent-error" class={errorClass} data-error-for="consent"></p>
+      </div>
+
+      <!-- Honeypot: hidden from humans and assistive tech; must stay empty. -->
+      <div class="sr-only" aria-hidden="true">
+        <label for="contact-website">No complete este campo</label>
+        <input
+          type="text"
+          id="contact-website"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Set on page load by the script below; validated server-side. -->
+      <input type="hidden" name="ts" value="" />
+
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center rounded-full bg-brand-700 px-6 py-3 text-base font-semibold text-white transition-colors motion-reduce:transition-none hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        Enviar mensaje
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Bind the form on astro:page-load: the ClientRouter recreates the DOM on
+  // view-transition navigations, so (re)initialization must happen there.
+  // addEventListener with the same named function reference is idempotent.
+  type ContactResponse = {
+    ok: boolean;
+    message?: string;
+    errors?: Record<string, string>;
+  };
+
+  const SUCCESS_MESSAGE =
+    "Gracias, su mensaje fue enviado. Le responderemos a la brevedad.";
+  const ERROR_MESSAGE =
+    "No se pudo enviar el mensaje. Por favor intente nuevamente o contáctenos al correo ende@ende.com.ec o al teléfono 02 252 9713.";
+  const INVALID_MESSAGE = "Por favor revise los campos marcados.";
+  // Matches the ?estado= values emitted by public/api/contacto.php.
+  const ESTADO_MESSAGES: Record<string, { kind: "success" | "error"; text: string }> =
+    {
+      enviado: { kind: "success", text: SUCCESS_MESSAGE },
+      error: { kind: "error", text: ERROR_MESSAGE },
+      limite: {
+        kind: "error",
+        text: "Ha superado el número máximo de envíos permitidos. Por favor intente más tarde.",
+      },
+    };
+
+  const STATUS_CLASSES = {
+    success: "border-green-300 bg-green-50 text-green-800",
+    error: "border-red-300 bg-red-50 text-red-800",
+  };
+
+  function setStatus(
+    form: HTMLFormElement,
+    kind: "success" | "error",
+    message: string,
+  ): void {
+    const status = form.querySelector<HTMLElement>("#contact-status");
+    if (!status) return;
+    status.classList.remove("hidden", ...Object.values(STATUS_CLASSES).flatMap((c) => c.split(" ")));
+    status.classList.add(...STATUS_CLASSES[kind].split(" "));
+    status.textContent = message;
+    status.focus();
+  }
+
+  function clearFieldErrors(form: HTMLFormElement): void {
+    form
+      .querySelectorAll<HTMLElement>("[data-error-for]")
+      .forEach((el) => {
+        el.textContent = "";
+        el.classList.add("hidden");
+      });
+    form
+      .querySelectorAll<HTMLElement>("[aria-invalid='true']")
+      .forEach((el) => {
+        el.removeAttribute("aria-invalid");
+        el.classList.remove("border-red-500");
+      });
+  }
+
+  function applyFieldErrors(
+    form: HTMLFormElement,
+    errors: Record<string, string>,
+  ): void {
+    for (const [field, message] of Object.entries(errors)) {
+      const input = form.elements.namedItem(field);
+      if (input instanceof HTMLElement) {
+        input.setAttribute("aria-invalid", "true");
+        input.classList.add("border-red-500");
+      }
+      const errorEl = form.querySelector<HTMLElement>(
+        `[data-error-for='${field}']`,
+      );
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove("hidden");
+      }
+    }
+  }
+
+  function setTimestamp(form: HTMLFormElement): void {
+    const ts = form.elements.namedItem("ts");
+    if (ts instanceof HTMLInputElement) {
+      ts.value = String(Math.floor(Date.now() / 1000));
+    }
+  }
+
+  async function handleSubmit(event: Event): Promise<void> {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    event.preventDefault();
+    clearFieldErrors(form);
+
+    // Native constraint validation (required/type/minlength/maxlength) runs
+    // before the request; noValidate was set at bind time so the enhanced
+    // flow controls error reporting.
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      setStatus(form, "error", INVALID_MESSAGE);
+      return;
+    }
+
+    const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
+    const originalLabel = button?.textContent ?? "";
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Enviando...";
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      const data = (await response
+        .json()
+        .catch(() => null)) as ContactResponse | null;
+
+      if (response.ok && data?.ok) {
+        setStatus(form, "success", data.message ?? SUCCESS_MESSAGE);
+        form.reset();
+        setTimestamp(form);
+      } else if (response.status === 422 && data?.errors) {
+        applyFieldErrors(form, data.errors);
+        setStatus(form, "error", data.message ?? INVALID_MESSAGE);
+      } else {
+        setStatus(form, "error", data?.message ?? ERROR_MESSAGE);
+      }
+    } catch {
+      setStatus(form, "error", ERROR_MESSAGE);
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
+    }
+  }
+
+  function initContactForm(): void {
+    const form = document.getElementById("contact-form");
+    if (!(form instanceof HTMLFormElement) || form.dataset.contactBound === "1") {
+      return;
+    }
+    form.dataset.contactBound = "1";
+
+    form.noValidate = true;
+    setTimestamp(form);
+
+    // Show the status carried by the no-JS redirect (?estado=...) and clean
+    // the URL so a refresh does not replay the state.
+    const estado = new URLSearchParams(window.location.search).get("estado");
+    if (estado && ESTADO_MESSAGES[estado]) {
+      const entry = ESTADO_MESSAGES[estado];
+      setStatus(form, entry.kind, entry.text);
+      window.history.replaceState(null, "", "/contacto/");
+    }
+
+    form.addEventListener("submit", (event) => {
+      void handleSubmit(event);
+    });
+  }
+
+  document.addEventListener("astro:page-load", initContactForm);
+</script>
