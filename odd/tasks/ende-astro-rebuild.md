@@ -24,7 +24,7 @@ Rebuild ende.com.ec (legacy Adobe Muse static site) as a modern Astro site.
 - [x] 6. Institutional pages: nosotros, equipos, sistemas de gestión (factura electrónica without link).
 - [x] 7. SEO and performance: metadata, sitemap, structured data, Lighthouse pass.
 - [x] 8. Contact page and form (PHP handler on hosting).
-- [ ] 9. Deploy: build and upload guide for mysitearea.com file manager.
+- [x] 9. Deploy: build and upload guide for mysitearea.com file manager. (Suspended: waiting for the client's authorization. Considered done by owner decision: the site is on GitHub main, reviewed and tested via Vercel preview.)
 
 ## Evidence
 
@@ -40,6 +40,7 @@ Rebuild ende.com.ec (legacy Adobe Muse static site) as a modern Astro site.
 - Task 7: `19f6774` feat: add SEO metadata, structured data and performance tuning. 11 pages, check 0 errors; JSON-LD 26 blocks valid; 2 font subsets; trailing slashes; robots.txt, .htaccess, 404, og-default.jpg. Lighthouse with compression (serve@14): mobile perf 98 (/) and 100 (/servicios/ultrasonido/), desktop 100; the earlier 57 came from astro preview serving uncompressed. Hero srcset widened to 400/640/800/1150. Native review review-a1025139543b5627 ESCALATED (state escalated, stop native_stop_required, cause unknown_causality, finding R3-CRASH-missing-cover). Parent check: `cover` is required `image()` in src/content.config.ts, so a missing cover fails schema validation at build, not at runtime. Resolved: owner chose to add a guard and re-review the whole range. `b7a51b2` fix: guard service OG image against a missing cover. Native review review-6ab841e4e4254074 over 5b67f37..b7a51b2 (all of task 7 plus the fix) approved and acknowledged; 6 suggestion-level advisory findings (OrganizationSchema, BreadcrumbSchema, astro.config sitemap filter, generate-og script, [slug] guard, BaseLayout props). Escalated lineage review-a1025139543b5627 left as is (terminal).
 - Task 8: `7143696` feat: add contact page and PHP mail handler. Owner choices: recipient ende@ende.com.ec, PHP mail() (no SMTP credentials). 12 pages, check 0 errors. PHP not installed locally; the worker used a temp portable PHP 8.3 for `php -l` plus 8 curl scenarios (422 validation, 405 GET, honeypot fake success, CRLF reject, 429 rate limit, 303 no-JS redirect). Real mail() delivery is unverified until it runs on the host. Native review review-761e5eab69944914 approved and acknowledged. Advisory: rate limit race, rate limit counted before validation, no automated PHP tests, no-JS error funnel, hardcoded /contacto/ path.
 - Preview mode: `4b6d696` feat: add preview mode that disables the contact form. PUBLIC_SITE_PREVIEW=1 disables the form and shows a notice (Vercel preview); without it, production stays enabled. Native review review-7c90bb27aea5c9ec approved and acknowledged; advisory: config guard, env read, script early return.
+- Task 9 status: suspended pending client authorization to deploy to mysitearea.com. Owner marked it done (2026-10-03): code lives in GitHub main and the client validated the site on Vercel. When deployment is authorized, generate `pnpm build` and upload `dist/` contents via the file manager (keeping `/api/` with the PHP handler).
 
 ## Follow-ups (advisory, non-blocking)
 
