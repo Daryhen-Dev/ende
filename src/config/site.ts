@@ -61,7 +61,7 @@ export const certifications: Certification[] = [
   {
     name: "ISO/IEC 17020:2013",
     detail:
-      "Organismo de inspección acreditado ante el SAE, Resolución No. SAE-ACR-0124-2021",
+      "Organismo de inspección acreditado ante el SAE, Resolución No. SAE-ACR-0376-2025",
   },
 ];
 
